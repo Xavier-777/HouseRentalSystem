@@ -25,6 +25,7 @@
         <result column="house_linkman" jdbcType="INTEGER" property="houseLinkMan"/>
         <result column="house_oriented" jdbcType="INTEGER" property="houseOriented"/>
     </resultMap>
+
     <!-- 添加订单信息 -->
     <insert id="addOrder" parameterType="com.house.entity.Order">
         insert into t_order

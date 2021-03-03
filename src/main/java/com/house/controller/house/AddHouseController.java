@@ -92,7 +92,7 @@ public class AddHouseController {
     @ResponseBody
     public Map<String, Object> detailsImage(@RequestParam("detailsImage") List<MultipartFile> file, HttpServletRequest req) {
 
-        Map<String, Object> map = new HashMap<>(16);
+        Map<String, Object> map = new HashMap<String, Object>(16);
         if (!file.isEmpty()) {
             for (MultipartFile f : file) {
                 try {
