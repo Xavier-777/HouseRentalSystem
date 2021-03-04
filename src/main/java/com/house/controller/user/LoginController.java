@@ -58,6 +58,12 @@ public class LoginController {
         return "redirect:/index.html";
     }
 
+    /**
+     * 注册
+     *
+     * @param user
+     * @return
+     */
     @PostMapping("/register")
     @ResponseBody
     public String register(User user) {
@@ -65,9 +71,11 @@ public class LoginController {
         try {
             register = mapper.register(user);
             if (register > 0) {
+                System.out.println("1");
                 return "OK";
             }
         } catch (Exception e) {
+            System.out.println("0");
             return "FAIL";
         }
         return "FAIL";
