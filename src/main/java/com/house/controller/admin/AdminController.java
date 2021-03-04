@@ -1,11 +1,11 @@
 package com.house.controller.admin;
 
-import com.house.dto.UserData;
-import com.house.dto.UserHouseData;
-import com.house.entity.Admin;
-import com.house.entity.House;
-import com.house.entity.Page;
-import com.house.entity.User;
+import com.house.pojo.dto.UserData;
+import com.house.pojo.dto.UserHouseData;
+import com.house.pojo.entity.Admin;
+import com.house.pojo.entity.House;
+import com.house.pojo.entity.Page;
+import com.house.pojo.entity.User;
 import com.house.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

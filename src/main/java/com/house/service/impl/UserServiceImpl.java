@@ -1,10 +1,10 @@
 package com.house.service.impl;
 
-import com.house.entity.User;
+import com.house.pojo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.house.dao.UserMapper;
+import com.house.mapper.UserMapper;
 import com.house.service.IUserService;
 
 /**

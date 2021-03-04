@@ -1,6 +1,6 @@
 package com.house.controller.user;
 
-import com.house.entity.User;
+import com.house.pojo.entity.User;
 import com.house.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,11 +71,9 @@ public class LoginController {
         try {
             register = mapper.register(user);
             if (register > 0) {
-                System.out.println("1");
                 return "OK";
             }
         } catch (Exception e) {
-            System.out.println("0");
             return "FAIL";
         }
         return "FAIL";

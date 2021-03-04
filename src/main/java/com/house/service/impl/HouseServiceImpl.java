@@ -6,9 +6,9 @@ import com.house.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.house.dao.HouseMapper;
-import com.house.entity.House;
-import com.house.entity.Page;
+import com.house.mapper.HouseMapper;
+import com.house.pojo.entity.House;
+import com.house.pojo.entity.Page;
 
 /**
  * @author chriy

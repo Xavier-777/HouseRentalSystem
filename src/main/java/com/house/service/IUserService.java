@@ -1,6 +1,6 @@
 package com.house.service;
 
-import com.house.entity.User;
+import com.house.pojo.entity.User;
 
 /**
  * @author chriy

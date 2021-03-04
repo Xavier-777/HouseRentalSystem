@@ -27,7 +27,7 @@
         <!--绑定mybatis配置文件-->
 <!--        <property name="configLocation" value="classpath:mybatis-config.xml"/>-->
         <!--绑定Mapper-->
-        <property name="mapperLocations" value="classpath:com/house/mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"/>
     </bean>
 
 
@@ -36,7 +36,7 @@
         <!--注入sqlSessionFactory-->
         <property name="sqlSessionFactoryBeanName" value="SqlSessionFactory"/>
         <!--需要扫描的Mapper包：只有这里引入了，后面的spring-service.xml才能配置到bookMapper-->
-        <property name="basePackage" value="com.house.dao"/>
+        <property name="basePackage" value="com.house.mapper"/>
     </bean>
 
 </beans>

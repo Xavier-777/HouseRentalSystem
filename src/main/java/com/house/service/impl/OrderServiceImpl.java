@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.house.dao.OrderMapper;
-import com.house.entity.Order;
-import com.house.entity.Page;
-import com.house.entity.UserOrder;
+import com.house.mapper.OrderMapper;
+import com.house.pojo.entity.Order;
+import com.house.pojo.entity.Page;
+import com.house.pojo.entity.UserOrder;
 import com.house.service.IOrderService;
 
 /**

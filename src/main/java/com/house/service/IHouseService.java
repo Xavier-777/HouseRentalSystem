@@ -2,8 +2,8 @@ package com.house.service;
 
 import java.util.List;
 
-import com.house.entity.House;
-import com.house.entity.Page;
+import com.house.pojo.entity.House;
+import com.house.pojo.entity.Page;
 
 /**
  * @author chriy

@@ -1,7 +1,7 @@
 package com.house.controller.admin;
 
-import com.house.entity.House;
-import com.house.entity.User;
+import com.house.pojo.entity.House;
+import com.house.pojo.entity.User;
 import com.house.service.IAdminService;
 import com.house.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;

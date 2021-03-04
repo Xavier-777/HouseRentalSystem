@@ -1,6 +1,6 @@
 package com.house.controller.house;
 
-import com.house.entity.House;
+import com.house.pojo.entity.House;
 import com.house.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

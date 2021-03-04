@@ -220,7 +220,6 @@
         });
 
         $('.regist-btn').click(function () {
-            // if ($("input[name='userName']").val() != "" && $("input[name='userPassword']").val() != "" && $("input[name='userPhoneNumber']").val() != "" && $("input[name='userNickName']").val() != "") {
             $.post("${pageContext.request.contextPath}/user/register", $('.form').serialize(), function (res) {
                 if (res === 'OK') {
                     layer.close(layer_index);
@@ -230,9 +229,6 @@
                     layer.msg("注册失败,用户名以存在");
                 }
             })
-            // } else {
-            //     layer.msg("请正确填写所有表单");
-            // }
         });
 
         form.on("submit(login)", function () {

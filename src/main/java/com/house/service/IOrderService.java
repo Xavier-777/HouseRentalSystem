@@ -2,9 +2,9 @@ package com.house.service;
 
 import java.util.List;
 
-import com.house.entity.Order;
-import com.house.entity.Page;
-import com.house.entity.UserOrder;
+import com.house.pojo.entity.Order;
+import com.house.pojo.entity.Page;
+import com.house.pojo.entity.UserOrder;
 
 /**
  * @author chriy

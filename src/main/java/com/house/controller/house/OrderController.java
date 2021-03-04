@@ -1,10 +1,10 @@
 package com.house.controller.house;
 
-import com.house.dto.UserOrderData;
-import com.house.entity.Order;
-import com.house.entity.Page;
-import com.house.entity.User;
-import com.house.entity.UserOrder;
+import com.house.pojo.dto.UserOrderData;
+import com.house.pojo.entity.Order;
+import com.house.pojo.entity.Page;
+import com.house.pojo.entity.User;
+import com.house.pojo.entity.UserOrder;
 import com.house.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

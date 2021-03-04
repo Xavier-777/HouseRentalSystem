@@ -1,7 +1,7 @@
 package com.house.interceptor;
 
-import com.house.entity.Admin;
-import com.house.entity.User;
+import com.house.pojo.entity.Admin;
+import com.house.pojo.entity.User;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +21,8 @@ public class UserInterceptor implements HandlerInterceptor {
 
         response.setCharacterEncoding("utf-8");
         String requestUrl = request.getRequestURL().toString();
+
+        System.out.println(requestUrl);
 
         // 检查 session
         HttpSession session = request.getSession();
