@@ -1,5 +1,6 @@
 package com.house.controller.house;
 
+import com.house.constant.PathConst;
 import com.house.pojo.entity.House;
 import com.house.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,11 @@ import java.util.List;
 public class HouseDetailController {
 
     @Autowired
-    private IHouseService service;
+    private IHouseService houseService;
 
     /**
      * 房源详情
+     * 问题：图片显示
      *
      * @param id      id
      * @param request req
@@ -30,11 +32,13 @@ public class HouseDetailController {
      */
     @GetMapping("/detail.html")
     public String detail(int id, HttpServletRequest request) {
-        House details = service.findHouseDetailsById(id);
+        System.out.println(PathConst.imgRealPath + "       " + PathConst.imgMappingPath);
+        House details = houseService.findHouseDetailsById(id);
         List<String> list = new ArrayList<String>();
         String[] split = details.getHouseDetailsImg().split(":-:");
         for (int i = 0; i < split.length; i++) {
             list.add(split[i]);
+            System.out.println(split[i]);
         }
         request.getSession().setAttribute("Details", details);
         request.getSession().setAttribute("DetailsImg", list);

@@ -21,7 +21,7 @@
             <c:if test="${not empty loginUser }">
                 <div class="personalCenter layui-pull-right">
                     <a href="${pageContext.request.contextPath}/user/home.html" target="_blank" style="color:#fff">
-                        <i class="layui-icon layui-icon-tree"></i> 个人中心</a>
+                        <i class="layui-icon layui-icon-tree"></i> ${loginUser.userNickName}</a>
                 </div>
             </c:if>
             <c:if test="${empty loginUser }">
@@ -188,7 +188,8 @@
     </div>
 </section>
 <footer>
-    <p>2018-2020 &copy; 房屋租赁网 懂您的需求 服务于心</p>
+    <a href="${pageContext.request.contextPath}/admin/index.html" >管理员登录</a>
+    <p>2018-2021 &copy; 房屋租赁网 懂您的需求 服务于心</p>
 </footer>
 <script>
     layui.use(['element', 'carousel', 'layer', 'form'], function () {

@@ -23,7 +23,7 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    private IAdminService service;
+    private IAdminService adminService;
 
     /**
      * 登录请求
@@ -36,7 +36,7 @@ public class AdminController {
     @PostMapping("/adminAccess")
     public String adminAccess(String userName, String userPassword, HttpServletRequest req) {
         Admin admin = new Admin(0, userName, userPassword);
-        Admin adminAccess = service.adminAccess(admin);
+        Admin adminAccess = adminService.adminAccess(admin);
         req.getSession().setAttribute("Admin", adminAccess);
         if (adminAccess != null) {
             return "OK";
@@ -51,7 +51,7 @@ public class AdminController {
      */
     @GetMapping("/allUser")
     public UserData findAllUser() {
-        List<User> findAllUser = service.findAllUser();
+        List<User> findAllUser = adminService.findAllUser();
         UserData userData = new UserData();
         userData.setCode(0);
         userData.setCount(findAllUser.size());
@@ -68,8 +68,8 @@ public class AdminController {
      */
     @PostMapping("/editUser")
     public String editUser(User user) {
-        int n = service.updateUser(user);
-        if (n > 0) {
+        int result = adminService.updateUser(user);
+        if (result > 0) {
             return "OK";
         }
         return "FAIL";
@@ -77,9 +77,10 @@ public class AdminController {
 
     /**
      * 查询所有房源
+     * 用了分页，page、limit是前端的layui直接发到后端的
      *
-     * @param page  page
-     * @param limit limit
+     * @param page  page    第几页
+     * @param limit limit   每页显示几条，默认是10
      * @return res
      */
     @RequestMapping("/houseList")
@@ -87,7 +88,7 @@ public class AdminController {
         Page p = new Page();
         p.setLimit(limit);
         p.setPage((page - 1) * limit);
-        List<House> findAllHouse = service.findAllHouse(p);
+        List<House> findAllHouse = adminService.findAllHouse(p);
         UserHouseData data = new UserHouseData();
         data.setCode(0);
         data.setCount(findAllHouse.size());
@@ -104,8 +105,8 @@ public class AdminController {
      */
     @RequestMapping("/deleteHouse")
     public String deleteHouse(int houseId) {
-        int deleteHouse = service.deleteHouse(houseId);
-        if (deleteHouse > 0) {
+        int result = adminService.deleteHouse(houseId);
+        if (result > 0) {
             return "OK";
         }
         return "FAIL";
@@ -116,8 +117,8 @@ public class AdminController {
      */
     @PostMapping("/deleteUser")
     public String deleteUser(Integer userId) {
-        int n = service.deleteUser(userId);
-        if (n > 0) {
+        int result = adminService.deleteUser(userId);
+        if (result > 0) {
             return "OK";
         }
         return "FAIL";
@@ -126,9 +127,9 @@ public class AdminController {
     /**
      * 修改管理员登录密码
      *
-     * @param request     req
-     * @param oldPwd      旧密码
-     * @param newPwd      新密码
+     * @param request    req
+     * @param oldPwd     旧密码
+     * @param newPwd     新密码
      * @param confirmPwd 确认密码
      * @return res
      */
@@ -138,19 +139,20 @@ public class AdminController {
         Admin adminSession = (Admin) request.getSession().getAttribute("Admin");
         checkAdmin.setId(adminSession.getId());
         checkAdmin.setUserPassword(oldPwd);
-        // 拿到当前登录的账户密码
-        Admin checkAdminPwd = service.checkAdminPwd(checkAdmin);
+        // 检查 oldPwd 是否正确
+        Admin checkAdminPwd = adminService.checkAdminPwd(checkAdmin);
         if (checkAdminPwd == null) {
             return "ERROR";
         }
+        // 两次密码校验
         if (!newPwd.equals(confirmPwd)) {
             return "FAIL";
         }
         Admin admin = new Admin();
         admin.setId(adminSession.getId());
         admin.setUserPassword(newPwd);
-        int n = service.changePassword(admin);
-        if (n > 0) {
+        int result = adminService.changePassword(admin);
+        if (result > 0) {
             return "OK";
         }
         return "FAIL";

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.house.mapper.OrderMapper">
-    <resultMap type="com.house.pojo.entity.Order" id="BasicMap">
+    <resultMap type="com.house.pojo.entity.Order" id="OrderMap">
         <id column="o_id" jdbcType="INTEGER" property="orderId"/>
         <result column="h_id" jdbcType="VARCHAR" property="houseId"/>
         <result column="order_time" jdbcType="VARCHAR" property="orderTime"/>
         <result column="order_user" jdbcType="VARCHAR" property="orderUser"/>
     </resultMap>
 
-    <resultMap type="com.house.pojo.entity.UserOrder" id="UserOrderMapper">
+    <resultMap type="com.house.pojo.entity.UserOrder" id="UserMap">
         <id column="o_id" jdbcType="INTEGER" property="orderId"/>
         <result column="h_id" jdbcType="INTEGER" property="houseId"/>
         <result column="order_time" jdbcType="VARCHAR" property="orderTime"/>
@@ -31,21 +31,22 @@
         insert into t_order
         values (0, #{houseId}, #{userId}, NOW(), #{orderUser})
     </insert>
+
     <!-- 查询所有订单信息 -->
-    <select id="findAllOrder" parameterType="com.house.pojo.entity.Page" resultMap="UserOrderMapper">
+    <select id="findAllOrder" parameterType="com.house.pojo.entity.Page" resultMap="UserMap">
         select *
-        from t_house h,
-             t_order o
-        where h.h_id = o.h_id
-          and u_id = #{userId}
+        from t_house h, t_order o
+        where h.h_id = o.h_id and u_id = #{userId}
         limit #{page},#{limit}
     </select>
+
     <!-- 条件查询不同用户的订单数目 -->
     <select id="getOrderCount" resultType="int" parameterType="int">
         select count(o_id)
         from t_order
         where u_id = #{userId}
     </select>
+
     <!-- 删除订单 -->
     <delete id="deleteOrder" parameterType="int">
         delete

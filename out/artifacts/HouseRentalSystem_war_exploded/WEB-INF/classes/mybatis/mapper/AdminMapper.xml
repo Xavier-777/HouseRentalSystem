@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.house.mapper.AdminMapper">
-    <resultMap type="com.house.pojo.entity.Admin" id="BasicMap">
+    <resultMap type="com.house.pojo.entity.Admin" id="AdminMap">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="user_password" jdbcType="VARCHAR" property="userPassword"/>
     </resultMap>
 
-    <resultMap type="com.house.pojo.entity.User" id="AllUserMap">
+    <resultMap type="com.house.pojo.entity.User" id="UserMap">
         <id column="u_id" jdbcType="INTEGER" property="userId"/>
         <result column="u_name" jdbcType="VARCHAR" property="userName"/>
         <result column="u_password" jdbcType="VARCHAR" property="userPassword"/>
@@ -15,7 +15,7 @@
         <result column="u_nickname" jdbcType="VARCHAR" property="userNickName"/>
     </resultMap>
 
-    <resultMap type="com.house.pojo.entity.House" id="AllHouseMap">
+    <resultMap type="com.house.pojo.entity.House" id="HouseMap">
         <id column="h_id" jdbcType="INTEGER" property="houseId"/>
         <result column="house_desc" jdbcType="VARCHAR" property="houseDesc"/>
         <result column="house_model" jdbcType="VARCHAR" property="houseModel"/>
@@ -34,20 +34,19 @@
     </resultMap>
 
     <!-- 管理员登录 -->
-    <select id="adminAccess" resultMap="BasicMap" parameterType="com.house.pojo.entity.Admin">
+    <select id="adminAccess" resultMap="AdminMap" parameterType="com.house.pojo.entity.Admin">
         select *
         from t_admin
-        where user_name = #{userName}
-          and user_password = #{userPassword}
+        where user_name = #{userName} and user_password = #{userPassword}
     </select>
 
     <!-- 查询所有用户 -->
-    <select id="findAllUser" resultMap="AllUserMap">
+    <select id="findAllUser" resultMap="UserMap">
         select *
         from t_users
     </select>
 
-    <select id="findAllHouse" resultMap="AllHouseMap" parameterType="com.house.pojo.entity.Page">
+    <select id="findAllHouse" resultMap="HouseMap" parameterType="com.house.pojo.entity.Page">
         select *
         from t_house
         limit #{page},#{limit}
@@ -59,7 +58,7 @@
         where h_id = #{houseId}
     </delete>
 
-    <select id="findUserById" parameterType="int" resultMap="AllUserMap">
+    <select id="findUserById" parameterType="int" resultMap="UserMap">
         select *
         from t_users
         where u_id = #{userId}
@@ -80,11 +79,11 @@
         where u_id = #{userId}
     </delete>
 
-    <select id="checkAdminPwd" parameterType="com.house.pojo.entity.Admin" resultMap="BasicMap">
+    <select id="checkAdminPwd" parameterType="com.house.pojo.entity.Admin" resultMap="AdminMap">
         select *
         from t_admin
         where user_password = #{userPassword}
-          and id = #{id}
+        and id = #{id}
     </select>
 
     <update id="updateAdminPwd" parameterType="com.house.pojo.entity.Admin">

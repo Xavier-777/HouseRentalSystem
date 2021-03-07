@@ -23,9 +23,19 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     @Autowired
-    private IUserService service;
+    private IUserService userService;
     @Autowired
-    private IHouseService dao;
+    private IHouseService houseService;
+
+    /**
+     * 后台第一个欢迎界面
+     *
+     * @return view
+     */
+    @GetMapping("/welcome.html")
+    public String toWelcomePage() {
+        return "welcome.jsp";
+    }
 
     /**
      * 用户管理页
@@ -43,22 +53,12 @@ public class UserController {
      * @return view
      */
     @GetMapping("/updatePassword.html")
-    public String updatePassword() {
+    public String toUpdatePassword() {
         return "/user/updatePassword.jsp";
     }
 
     /**
-     * 后台第一个欢迎界面
-     *
-     * @return view
-     */
-    @GetMapping("/welcome.html")
-    public String toWelcomePage() {
-        return "welcome.jsp";
-    }
-
-    /**
-     * 用户发布的租房信息
+     * 用户发布的租房总信息
      * @return view
      */
     @GetMapping("/userRental.html")
@@ -76,13 +76,14 @@ public class UserController {
      */
     @GetMapping("/updateHouse.html")
     public String toUpdatePage(int houseId, HttpServletRequest request) {
-        House house = dao.findHouseDetailsById(houseId);
+        House house = houseService.findHouseDetailsById(houseId);
         request.getSession().setAttribute("House", house);
         return "/admin/updateHouse.jsp";
     }
 
     /**
      * 更新用户密码
+     * 需求：这里需要检测 old password 是否正确，用 checkUser 确认是否正确
      *
      * @param id     id
      * @param newPwd new password
@@ -95,13 +96,13 @@ public class UserController {
         User oldUser = new User();
         oldUser.setUserId(Integer.parseInt(id));
         oldUser.setUserPassword(oldPwd);
-        User checkUser = service.checkOldPwd(oldUser);
+        User checkUser = userService.checkOldPwd(oldUser);//检测 old password 是否正确
         if (checkUser != null) {
             User newUser = new User();
             newUser.setUserId(Integer.parseInt(id));
             newUser.setUserPassword(newPwd);
-            int n = service.updateUserPwd(newUser);
-            if (n > 0) {
+            int result = userService.updateUserPwd(newUser);
+            if (result > 0) {
                 return "OK";
             }
         }

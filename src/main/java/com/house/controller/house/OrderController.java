@@ -26,10 +26,10 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private IOrderService service;
+    private IOrderService orderService;
 
     /**
-     * 用户的收藏房源界面
+     * 用户的收藏房源界面、“我的租房信息”
      *
      * @return view
      */
@@ -40,6 +40,7 @@ public class OrderController {
 
     /**
      * 添加订单
+     * 问题：重复添加订单
      *
      * @param id      房源id
      * @param request req
@@ -54,8 +55,8 @@ public class OrderController {
             order.setHouseId(Integer.parseInt(id));
             order.setOrderUser(user.getUserNickName());
             order.setUserId(user.getUserId());
-            int n = service.addOrder(order);
-            if (n > 0) {
+            int result = orderService.addOrder(order);
+            if (result > 0) {
                 return "OK";
             }
         } catch (NumberFormatException e) {
@@ -75,15 +76,15 @@ public class OrderController {
     @PostMapping("/myOrderInfo")
     @ResponseBody
     public UserOrderData findAllOrder(int page, int limit, HttpServletRequest request) {
-        Page pageObj = new Page();
-        pageObj.setPage((page - 1) * limit);
-        pageObj.setLimit(limit);
+        Page p = new Page();
+        p.setPage((page - 1) * limit);
+        p.setLimit(limit);
         User user = (User) request.getSession().getAttribute("loginUser");
-        pageObj.setUserId(user.getUserId());
+        p.setUserId(user.getUserId());
         UserOrderData uod = new UserOrderData();
-        List<UserOrder> order = service.findAllOrder(pageObj);
+        List<UserOrder> order = orderService.findAllOrder(p);
         uod.setCode(0);
-        uod.setCount(service.getOrderCount(user.getUserId()));
+        uod.setCount(orderService.getOrderCount(user.getUserId()));
         uod.setData(order);
         uod.setMsg("200");
         return uod;
@@ -98,8 +99,8 @@ public class OrderController {
     @PostMapping("/deleteOrder")
     @ResponseBody
     public String deleteOrder(int orderId) {
-        int n = service.deleteOrder(orderId);
-        if (n > 0) {
+        int result = orderService.deleteOrder(orderId);
+        if (result > 0) {
             return "OK";
         }
         return "FAIL";

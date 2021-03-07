@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.house.mapper.HouseMapper">
-    <resultMap type="com.house.pojo.entity.House" id="BasicMap">
+    <resultMap type="com.house.pojo.entity.House" id="HouseMap">
         <id column="h_id" jdbcType="INTEGER" property="houseId"/>
         <result column="house_desc" jdbcType="VARCHAR" property="houseDesc"/>
         <result column="house_model" jdbcType="VARCHAR" property="houseModel"/>
@@ -20,7 +20,7 @@
     </resultMap>
 
     <!-- 首页信息查询 -->
-    <select id="findHomeInfo" resultMap="BasicMap">
+    <select id="findHomeInfo" resultMap="HouseMap">
         SELECT h_id,
                house_desc,
                house_model,
@@ -34,7 +34,7 @@
     </select>
 
     <!-- 房屋详细信息 -->
-    <select id="findHouseDetailsById" parameterType="int" resultMap="BasicMap">
+    <select id="findHouseDetailsById" parameterType="int" resultMap="HouseMap">
         SELECT h_id,
                house_desc,
                house_price,
@@ -72,7 +72,7 @@
     </insert>
 
     <!-- 查找用户发布的房源信息 -->
-    <select id="findHouseByUser" parameterType="com.house.pojo.entity.Page" resultMap="BasicMap">
+    <select id="findHouseByUser" parameterType="com.house.pojo.entity.Page" resultMap="HouseMap">
         select *
         from t_house
         where publisher = #{publisher}
@@ -102,7 +102,7 @@
     </update>
 
     <!-- 条件搜索 -->
-    <select id="findHouseByLike" parameterType="string" resultMap="BasicMap">
+    <select id="findHouseByLike" parameterType="string" resultMap="HouseMap">
         SELECT *
         FROM t_house h
         WHERE CONCAT(
@@ -112,13 +112,13 @@
                   ) LIKE CONCAT("%", #{keywords}, "%")
     </select>
 
-    <select id="findHouseOrderByDesc" resultMap="BasicMap">
+    <select id="findHouseOrderByDesc" resultMap="HouseMap">
         SELECT *
         FROM t_house h
         ORDER BY house_price DESC
     </select>
 
-    <select id="findHouseOrderByAsc" resultMap="BasicMap">
+    <select id="findHouseOrderByAsc" resultMap="HouseMap">
         SELECT *
         FROM t_house h
         ORDER BY house_price

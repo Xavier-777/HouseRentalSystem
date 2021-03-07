@@ -22,8 +22,6 @@ public class UserInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("utf-8");
         String requestUrl = request.getRequestURL().toString();
 
-        System.out.println(requestUrl);
-
         // 检查 session
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("loginUser");

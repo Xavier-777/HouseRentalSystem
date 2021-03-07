@@ -24,7 +24,7 @@
         let dt = table.render({
             elem: "#allHouse",
             url: "${pageContext.request.contextPath}/admin/houseList",
-            page: true,
+            page: true, //page为true，layui会自动帮你加上页面数，若false，则会隐藏
             cols: [[
                 {field: 'houseId', title: '序号', align: 'center', width: 60},
                 {field: 'houseDesc', title: '房屋详情', align: 'center', minWidth: 200},

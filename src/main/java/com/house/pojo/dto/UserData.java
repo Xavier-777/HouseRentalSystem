@@ -17,10 +17,10 @@ import java.util.List;
 public class UserData {
 	private int code;
 
-	private String msg;
+	private String msg; //结果信息
 
-	private int count;
+	private int count;  //data的长度
 
-	private List<User> data;
+	private List<User> data; //装User数据
 
 }

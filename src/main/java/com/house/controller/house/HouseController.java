@@ -22,19 +22,26 @@ import java.util.List;
 public class HouseController {
 
     @Autowired
-    private IHouseService service;
+    private IHouseService houseService;
 
+    /**
+     * 查找用户自己发布的房屋信息
+     *
+     * @param request
+     * @param page
+     * @param limit
+     * @return
+     */
     @RequestMapping("/findUserHouse")
     @ResponseBody
     public UserHouseData houseByUser(HttpServletRequest request, int page, int limit) {
         Page p = new Page();
-        User u = (User) request.getSession().getAttribute("loginUser");
-        String publisher = u.getUserNickName();
+        User user = (User) request.getSession().getAttribute("loginUser");
+        String publisher = user.getUserNickName();
         p.setPublisher(publisher);
         p.setLimit(limit);
         p.setPage((page - 1) * limit);
-        List<House> list = service.findHouseByUser(p);
-        System.out.println(list);
+        List<House> list = houseService.findHouseByUser(p);
         return new UserHouseData(0, "200", list.size(), list);
     }
 
@@ -47,8 +54,8 @@ public class HouseController {
     @PostMapping("/deleteUserHouse")
     @ResponseBody
     public String deleteUserHouse(String houseId) {
-        int n = service.deleteUserHouse(Integer.parseInt(houseId));
-        if (n > 0) {
+        int result = houseService.deleteUserHouse(Integer.parseInt(houseId));
+        if (result > 0) {
             return "OK";
         }
         return "FAIL";
@@ -63,8 +70,8 @@ public class HouseController {
     @PostMapping("/updateHouse")
     @ResponseBody
     public String updateHouse(House house) {
-        int n = service.updateHouse(house);
-        if (n > 0) {
+        int result = houseService.updateHouse(house);
+        if (result > 0) {
             return "OK";
         }
         return "FAIL";

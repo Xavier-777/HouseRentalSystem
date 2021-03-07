@@ -18,7 +18,7 @@ public class House {
      */
     private int houseId;
     /**
-     * 房屋标题描述西信息
+     * 房屋标题描述的信息
      */
     private String houseDesc;
     /**

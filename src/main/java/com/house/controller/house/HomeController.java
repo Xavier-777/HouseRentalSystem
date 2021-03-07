@@ -19,23 +19,25 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    private IHouseService service;
+    private IHouseService houseService;
 
     /**
      * 首页
+     * 后期修改：想每10条加载一次
      *
      * @param request request
      * @return view
      */
     @GetMapping({"/index.html", "/"})
     public String index(HttpServletRequest request) {
-        List<House> findHomeInfo = service.findHomeInfo();
+        List<House> findHomeInfo = houseService.findHomeInfo();
         request.getSession().setAttribute("House", findHomeInfo);
         return "index/index.jsp";
     }
 
     /**
-     * 模糊查询
+     * 首页搜索
+     * 模糊查询：几室几厅、描述信息、社区名
      *
      * @param request  request
      * @param keywords keywords
@@ -43,7 +45,7 @@ public class HomeController {
      */
     @PostMapping("/fuzzy")
     public String findHouseByLike(HttpServletRequest request, String keywords) {
-        List<House> findHomeInfo = service.findHouseByLike(keywords);
+        List<House> findHomeInfo = houseService.findHouseByLike(keywords);
         request.getSession().removeAttribute("House");
         request.getSession().setAttribute("House", findHomeInfo);
         return "index/index.jsp";
@@ -57,7 +59,7 @@ public class HomeController {
      */
     @GetMapping("/priceAsc")
     public String findPriceAsc(HttpServletRequest request) {
-        List<House> findHomeInfo = service.findHouseOrderByAsc();
+        List<House> findHomeInfo = houseService.findHouseOrderByAsc();
         request.getSession().removeAttribute("House");
         request.getSession().setAttribute("House", findHomeInfo);
         return "index/index.jsp";
@@ -71,7 +73,7 @@ public class HomeController {
      */
     @GetMapping("/priceDesc")
     public String findPriceDesc(HttpServletRequest request) {
-        List<House> findHomeInfo = service.findHouseOrderByDesc();
+        List<House> findHomeInfo = houseService.findHouseOrderByDesc();
         request.getSession().removeAttribute("House");
         request.getSession().setAttribute("House", findHomeInfo);
         return "index/index.jsp";

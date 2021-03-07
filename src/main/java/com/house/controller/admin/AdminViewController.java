@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminViewController {
 
     @Autowired
-    private IAdminService service;
+    private IAdminService adminService;
 
     @Autowired
-    private IHouseService dao;
+    private IHouseService houseService;
 
     /**
      * 登录页
@@ -64,7 +64,7 @@ public class AdminViewController {
      * @return view
      */
     @GetMapping("/changePassword.html")
-    public String changePasswordPage() {
+    public String toChangePasswordPage() {
         return "/admin/changePassword.jsp";
     }
 
@@ -95,7 +95,7 @@ public class AdminViewController {
      */
     @GetMapping("/editUser.html")
     public String toEditUserPage(int userId, HttpServletRequest req) {
-        User findUserById = service.findUserById(userId);
+        User findUserById = adminService.findUserById(userId);
         req.getSession().setAttribute("User", findUserById);
         return "/admin/editUser.jsp";
     }
@@ -109,7 +109,7 @@ public class AdminViewController {
      */
     @RequestMapping("/updateHouse.html")
     public String toUpdatePage(int houseId, HttpServletRequest request) {
-        House house = dao.findHouseDetailsById(houseId);
+        House house = houseService.findHouseDetailsById(houseId);
         request.getSession().setAttribute("House", house);
         return "/admin/updateHouse.jsp";
     }

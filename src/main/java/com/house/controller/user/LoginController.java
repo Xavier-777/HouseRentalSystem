@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    private IUserService mapper;
+    private IUserService userService;
 
     /**
      * 登录
@@ -38,9 +38,9 @@ public class LoginController {
         User user = new User();
         user.setUserName(userName);
         user.setUserPassword(userPassword);
-        User loginUser = mapper.login(user);
+        User loginUser = userService.login(user);
         if (loginUser != null) {
-            req.getSession().setAttribute("loginUser", loginUser);
+            req.getSession().setAttribute("loginUser", loginUser); //登录成功，将登录用户放到Session中
             return "OK";
         }
         return "FAIL";
@@ -69,7 +69,7 @@ public class LoginController {
     public String register(User user) {
         int register;
         try {
-            register = mapper.register(user);
+            register = userService.register(user);
             if (register > 0) {
                 return "OK";
             }

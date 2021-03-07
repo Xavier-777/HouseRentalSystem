@@ -29,7 +29,7 @@
                        autocomplete="off"
                        class="layui-input" lay-verify="pass">
             </div>
-            <div class="layui-form-mid layui-word-aux">长度为5-12位字母加数字</div>
+            <div class="layui-form-mid layui-word-aux">长度为5-12位</div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">确认密码</label>
@@ -38,7 +38,7 @@
                        autocomplete="off"
                        class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">长度为5-12位字母加数字</div>
+            <div class="layui-form-mid layui-word-aux">长度为5-12位</div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">

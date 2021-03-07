@@ -61,7 +61,7 @@
                 seamless></iframe>
     </div>
     <div class="layui-footer" style="text-align: center;font-size: 16px">
-        <p>2018-2020 &copy; 房屋租赁网 懂您的需求 服务于心</p>
+        <p>2018-2021 &copy; 房屋租赁网 懂您的需求 服务于心</p>
     </div>
 </div>
 <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
