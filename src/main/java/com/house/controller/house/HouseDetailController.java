@@ -23,8 +23,12 @@ public class HouseDetailController {
     private IHouseService houseService;
 
     /**
+     * 虚拟路径，显示图片必须要加上
+     */
+    private String simplePath = PathConst.imgMappingPath;
+
+    /**
      * 房源详情
-     * 问题：图片显示
      *
      * @param id      id
      * @param request req
@@ -32,16 +36,15 @@ public class HouseDetailController {
      */
     @GetMapping("/detail.html")
     public String detail(int id, HttpServletRequest request) {
-        System.out.println(PathConst.imgRealPath + "       " + PathConst.imgMappingPath);
+        System.out.println(simplePath);
         House details = houseService.findHouseDetailsById(id);
-        List<String> list = new ArrayList<String>();
-        String[] split = details.getHouseDetailsImg().split(":-:");
-        for (int i = 0; i < split.length; i++) {
-            list.add(split[i]);
-            System.out.println(split[i]);
+        List<String> DetailsImgList = new ArrayList<String>();
+        String[] imgFilename = details.getHouseDetailsImg().split(":-:");
+        for (int i = 0; i < imgFilename.length; i++) {
+            DetailsImgList.add(simplePath + imgFilename[i]);
         }
         request.getSession().setAttribute("Details", details);
-        request.getSession().setAttribute("DetailsImg", list);
+        request.getSession().setAttribute("DetailsImg", DetailsImgList);
         return "/user/houseDetails.jsp";
     }
 }

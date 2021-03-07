@@ -44,6 +44,12 @@
 ![](web/img/assets/guide-detail.png)
 
 
+## 图片显示功能
+
+https://blog.csdn.net/Cheney550995353/article/details/70185282
+
+## properties注入静态类
+https://blog.csdn.net/xukun5137/article/details/81093687
 
 ## License
 

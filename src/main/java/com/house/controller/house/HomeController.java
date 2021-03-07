@@ -1,5 +1,6 @@
 package com.house.controller.house;
 
+import com.house.constant.PathConst;
 import com.house.pojo.entity.House;
 import com.house.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class HomeController {
     @GetMapping({"/index.html", "/"})
     public String index(HttpServletRequest request) {
         List<House> findHomeInfo = houseService.findHomeInfo();
+        //给每一个图片都加上虚拟路径，以显示图片
+        for (int i = 0; i < findHomeInfo.size(); i++) {
+            House house = findHomeInfo.get(i);
+            house.setHouseImage(PathConst.imgMappingPath + house.getHouseImage());
+        }
         request.getSession().setAttribute("House", findHomeInfo);
         return "index/index.jsp";
     }

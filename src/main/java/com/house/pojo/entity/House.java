@@ -1,5 +1,6 @@
 package com.house.pojo.entity;
 
+import com.house.constant.PathConst;
 import lombok.*;
 
 import java.util.Date;

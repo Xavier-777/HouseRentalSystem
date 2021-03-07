@@ -35,12 +35,17 @@ public class AddHouseController {
      * 简介图片地址
      * 注意：虚拟路径映射的关键位置
      */
-    private String simplePath = "/hrs/";
+    private String simplePath = PathConst.imgMappingPath;
 
     /**
      * 详细图片地址
      */
     private StringBuilder detailsPath = new StringBuilder();
+
+    /**
+     * 简介图名
+     */
+    private String briefImageFilename = null;
 
     /**
      * 添加房源界面
@@ -68,13 +73,14 @@ public class AddHouseController {
             if (!filePath.exists()) {
                 filePath.mkdirs();
             }
-            String filename = UUID.randomUUID().toString().replace("-", "")
+            briefImageFilename = UUID.randomUUID().toString().replace("-", "")
                     + Objects.requireNonNull(briefFile.getOriginalFilename())
                     .substring(briefFile.getOriginalFilename().lastIndexOf("."));
             //创建虚拟路径存储
-            simplePath += filename;
+            simplePath += briefImageFilename;
             //上传
-            briefFile.transferTo(new File(dirPath + filename));
+            briefFile.transferTo(new File(dirPath + briefImageFilename));
+            //前端显示上传图片
             map.put("image", simplePath);
             map.put("code", 0);
             map.put("msg", "上传成功");
@@ -98,7 +104,6 @@ public class AddHouseController {
         Map<String, Object> map = new HashMap<String, Object>(16);
         if (!file.isEmpty()) {
             String filename;    //文件名
-            String localPath;   //存储虚拟路径
             // 本地映射路径若无，则创建
             File filePath = new File(dirPath);
             if (!filePath.exists()) {
@@ -109,8 +114,7 @@ public class AddHouseController {
                     filename = UUID.randomUUID().toString().replace("-", "")
                             + Objects.requireNonNull(f.getOriginalFilename())
                             .substring(f.getOriginalFilename().lastIndexOf("."));
-                    localPath = simplePath + "details/" + filename;
-                    detailsPath.append(localPath + ":-:");
+                    detailsPath.append(filename + ":-:");
                     //上传
                     f.transferTo(new File(dirPath + filename));
                 } catch (Exception e) {
@@ -137,13 +141,12 @@ public class AddHouseController {
         if (house.getPublisher() == null || "".equals(house.getPublisher())) {
             house.setPublisher("管理员");
         }
-        //直接拿全局变量使用，可能有bug？
-        house.setHouseImage(simplePath);
+        house.setHouseImage(briefImageFilename);
         house.setHouseDetailsImg(detailsPath.toString());
         int result = houseService.addNewHouse(house);
         if (result > 0) {
             // 置空上一次的添加记录
-            simplePath = "/hrs/";
+            simplePath = PathConst.imgMappingPath;
             detailsPath.delete(0, detailsPath.length());
             return "OK";
         }

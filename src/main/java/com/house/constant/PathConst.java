@@ -9,10 +9,10 @@ public final class PathConst {
     /**
      * 图片的本地路径
      */
-    public static final String imgRealPath = "D:/upload/hrs/";
+    public static String imgRealPath = null;
 
     /**
      * 图片的映射路径
      */
-    public static final String imgMappingPath = "/upload/hrs/";
+    public static String imgMappingPath = null;
 }

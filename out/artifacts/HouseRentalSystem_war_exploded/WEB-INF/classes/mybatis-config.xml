@@ -15,12 +15,6 @@
 
     </typeAliases>
 
-    <!--分页插件-->
-    <plugins>
-        <plugin interceptor="com.github.pagehelper.PageInterceptor">
-            <property name="helperDialect" value="mysql"/>
-        </plugin>
-    </plugins>
 
     <!--3.绑定Mapper接口：由Spring绑定-->
     <mappers>
