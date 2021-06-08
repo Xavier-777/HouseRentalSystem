@@ -8,46 +8,28 @@
         <result column="house_area" jdbcType="VARCHAR" property="houseArea"/>
         <result column="house_floor" jdbcType="VARCHAR" property="houseFloor"/>
         <result column="house_type" jdbcType="VARCHAR" property="houseType"/>
-        <result column="house_price" jdbcType="VARCHAR" property="housePrice"/>
+        <result column="house_price" jdbcType="DECIMAL" property="housePrice"/>
         <result column="house_address" jdbcType="VARCHAR" property="houseAddress"/>
         <result column="house_image" jdbcType="VARCHAR" property="houseImage"/>
         <result column="community_name" jdbcType="VARCHAR" property="communityName"/>
         <result column="house_linkman" jdbcType="VARCHAR" property="houseLinkMan"/>
         <result column="house_oriented" jdbcType="VARCHAR" property="houseOriented"/>
         <result column="house_details_img" jdbcType="VARCHAR" property="houseDetailsImg"/>
+        <result column="house_privacy_img" jdbcType="VARCHAR" property="housePrivacyImg"/>
         <result column="publisher" jdbcType="VARCHAR" property="publisher"/>
         <result column="publish_time" jdbcType="VARCHAR" property="publishTime"/>
+        <result column="house_status" jdbcType="VARCHAR" property="houseStatus"/>
     </resultMap>
 
     <!-- 首页信息查询 -->
     <select id="findHomeInfo" resultMap="HouseMap">
-        SELECT h_id,
-               house_desc,
-               house_model,
-               house_area,
-               house_type,
-               house_price,
-               house_floor,
-               house_address,
-               house_image
+        SELECT *
         FROM t_house
     </select>
 
     <!-- 房屋详细信息 -->
     <select id="findHouseDetailsById" parameterType="int" resultMap="HouseMap">
-        SELECT h_id,
-               house_desc,
-               house_price,
-               house_type,
-               house_area,
-               house_floor,
-               community_name,
-               house_address,
-               house_linkman,
-               house_model,
-               house_area,
-               house_oriented,
-               house_details_img
+        SELECT *
         FROM t_house
         WHERE h_id = #{id}
     </select>
@@ -67,8 +49,10 @@
                 #{houseLinkMan},
                 #{houseOriented},
                 #{houseDetailsImg},
+                #{housePrivacyImg},
                 #{publisher},
-                NOW())
+                NOW(),
+                #{houseStatus})
     </insert>
 
     <!-- 查找用户发布的房源信息 -->
@@ -77,6 +61,13 @@
         from t_house
         where publisher = #{publisher}
         limit #{page},#{limit}
+    </select>
+
+    <!-- 查找用户发布的房源信息 -->
+    <select id="findHouseCountByUser" parameterType="com.house.pojo.entity.Page" resultType="int">
+        select count(*)
+        from t_house
+        where publisher = #{publisher}
     </select>
 
     <!-- 删除用户发布的房源信息 -->
@@ -123,4 +114,62 @@
         FROM t_house h
         ORDER BY house_price
     </select>
+
+    <update id="checkHouse" parameterType="com.house.pojo.entity.House">
+        UPDATE t_house
+        set house_status = #{houseStatus}
+        where h_id = #{houseId}
+    </update>
+
+    <select id="findTargetHouses" parameterType="com.house.pojo.entity.HouseFilter" resultMap="HouseMap">
+        select *
+        from t_house
+        <where>
+            <if test="housePriceMin != 0 and housePriceMax != 0">
+                house_price between #{housePriceMin} and #{housePriceMax}
+            </if>
+            <if test="houseModel != 'null'">
+                AND house_model like CONCAT(#{houseModel}, "%")
+            </if>
+            <if test="houseType != 'null'">
+                AND house_type like #{houseType}
+            </if>
+            <if test="houseOriented != 'null'">
+                AND house_oriented like #{houseOriented}
+            </if>
+        </where>
+        <if test="housePriceSort == 'ASC'">
+            ORDER BY house_price ASC
+        </if>
+        <if test="housePriceSort == 'DESC'">
+            ORDER BY house_price DESC
+        </if>
+    </select>
+
+    <update id="deleteHouseImg" parameterType="com.house.pojo.entity.House">
+        UPDATE t_house
+        set
+        <if test="houseDetailsImg != null">
+            house_details_img = #{houseDetailsImg}
+        </if>
+        <if test="housePrivacyImg != null">
+            house_privacy_img = #{housePrivacyImg}
+        </if>
+        where h_id = #{houseId}
+    </update>
+
+    <update id="updateHouseImg" parameterType="com.house.pojo.entity.House">
+        UPDATE t_house
+        set
+        <if test="houseImage != null">
+            house_image = #{houseImage}
+        </if>
+        <if test="houseDetailsImg != null">
+            house_details_img = concat(IF(ISNULL(house_details_img),"",house_details_img),#{houseDetailsImg})
+        </if>
+        <if test="housePrivacyImg != null">
+            house_privacy_img = concat(IF(ISNULL(house_privacy_img),"",house_privacy_img),#{housePrivacyImg})
+        </if>
+        where h_id = #{houseId}
+    </update>
 </mapper>

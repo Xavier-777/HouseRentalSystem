@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * 租房用户
  * @author chriy
@@ -17,4 +19,5 @@ public class User {
 	private String userPassword;
 	private String userPhoneNumber;
 	private String userNickName;
+	private BigDecimal userBalance;
 }

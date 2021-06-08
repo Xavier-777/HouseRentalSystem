@@ -25,9 +25,15 @@
         let dt = table.render({
             elem: "#houseList",
             url: "${pageContext.request.contextPath }/house/findUserHouse",
+            limit: 5,
+            limits: [5, 10],
             page: true,
             cols: [[
-                {field: 'houseId', title: '序号', align: 'center'},
+                {
+                    field: 'houseId', title: '序号', align: 'center', templet: function (d) {
+                        return d.LAY_INDEX;
+                    }
+                },
                 {
                     field: 'publishTime', title: '发布时间', align: 'center', templet: function (d) {
                         return util.toDateString(d.publishTime)
@@ -39,11 +45,30 @@
                 {field: 'houseArea', title: '面积', align: 'center'},
                 {field: 'houseFloor', title: '楼层', align: 'center'},
                 {field: 'houseType', title: '出租方式', align: 'center'},
-                {field: 'housePrice', title: '出租价格', align: 'center'},
+                {
+                    field: 'housePrice', title: '出租价格', align: 'center', templet: function (data) {
+                        var price = parseFloat(data.housePrice).toFixed(2);
+                        return price;
+                    }
+                },
                 {field: 'houseAddress', title: '地址', align: 'center'},
                 {field: 'communityName', title: '小区名字', align: 'center'},
                 {field: 'houseLinkMan', title: '联系电话', align: 'center'},
                 {field: 'houseOriented', title: '房屋朝向', align: 'center'},
+                {
+                    field: 'houseStatus', title: '房屋状态', align: 'center', templet: function (d) {
+                        if (d.houseStatus == 'unchecked')
+                            return "未审核";
+                        if (d.houseStatus == 'pass')
+                            return "已审核通过";
+                        if (d.houseStatus == 'not_pass')
+                            return "审核未通过";
+                        if (d.houseStatus == 'ordered')
+                            return "已下单";
+                        if (d.houseStatus == 'using')
+                            return "正在被使用";
+                    }
+                },
                 {title: '操作', align: 'center', toolbar: "#tools", width: 190}
             ]],
         });
@@ -55,7 +80,7 @@
             let currPage = dt.config.page.curr;
 
             if (layEvent === "view") {
-                window.open("${pageContext.request.contextPath}/index.html");
+                window.location.href = "${pageContext.request.contextPath}/user/myRentalDetail.html?houseId=" + data.houseId;
             }
             if (layEvent === "edit") {
                 window.location.href = "${pageContext.request.contextPath}/user/updateHouse.html?houseId=" + data.houseId;
@@ -70,7 +95,7 @@
                             });
                             layer.msg("删除成功");
                         }
-                    })
+                    });
                 });
             }
         });

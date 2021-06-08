@@ -1,8 +1,9 @@
 package com.house.pojo.entity;
 
-import com.house.constant.PathConst;
+import com.house.constant.HouseStatus;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -41,7 +42,7 @@ public class House {
     /**
      * 价格
      */
-    private int housePrice;
+    private BigDecimal housePrice;
     /**
      * 地址
      */
@@ -67,6 +68,10 @@ public class House {
      */
     private String houseDetailsImg;
     /**
+     * 个人信息图片
+     */
+    private String housePrivacyImg;
+    /**
      * 发布人员
      */
     private String publisher;
@@ -74,4 +79,8 @@ public class House {
      * 发布时间
      */
     private Date publishTime;
+    /**
+     * 房屋状态
+     */
+    private String houseStatus;
 }

@@ -8,11 +8,12 @@
         <result column="u_password" jdbcType="VARCHAR" property="userPassword"/>
         <result column="u_phone_number" jdbcType="VARCHAR" property="userPhoneNumber"/>
         <result column="u_nickname" jdbcType="VARCHAR" property="userNickName"/>
+        <result column="u_balance" jdbcType="DECIMAL" property="userBalance"/>
     </resultMap>
 
     <!-- 登录 -->
     <select id="login" resultMap="UserMap" parameterType="com.house.pojo.entity.User">
-		select u_id,u_name,u_password,u_phone_number,u_nickname
+		select *
 		from t_users
 		where u_name=#{userName} and u_password=#{userPassword}
 	</select>
@@ -36,5 +37,17 @@
 		SET u_password = #{userPassword}
 		WHERE u_id = #{userId}
 	</update>
+
+    <update id="updateBalance" parameterType="com.house.pojo.entity.User">
+		UPDATE t_users
+		SET u_balance =  u_balance + #{userBalance}
+		WHERE u_id = #{userId};
+	</update>
+
+	<select id="findUserByPublisher" resultMap="UserMap" parameterType="string">
+		select *
+		from t_users
+		where u_nickname = #{publisher}
+	</select>
 
 </mapper>

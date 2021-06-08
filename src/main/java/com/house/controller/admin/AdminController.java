@@ -47,15 +47,21 @@ public class AdminController {
     /**
      * 查询所有用户
      *
+     * @param page  page    第几页
+     * @param limit limit   每页显示几条
      * @return res
      */
     @GetMapping("/allUser")
-    public UserData findAllUser() {
+    public UserData findAllUser(int page, int limit) {
+        Page p = new Page();
+        p.setLimit(limit);
+        p.setPage((page - 1) * limit);
         List<User> findAllUser = adminService.findAllUser();
+        List<User> someUser = adminService.findSomeUser(p);
         UserData userData = new UserData();
         userData.setCode(0);
         userData.setCount(findAllUser.size());
-        userData.setData(findAllUser);
+        userData.setData(someUser);
         userData.setMsg("OK");
         return userData;
     }
@@ -80,7 +86,7 @@ public class AdminController {
      * 用了分页，page、limit是前端的layui直接发到后端的
      *
      * @param page  page    第几页
-     * @param limit limit   每页显示几条，默认是10
+     * @param limit limit   每页显示几条
      * @return res
      */
     @RequestMapping("/houseList")
@@ -88,11 +94,12 @@ public class AdminController {
         Page p = new Page();
         p.setLimit(limit);
         p.setPage((page - 1) * limit);
-        List<House> findAllHouse = adminService.findAllHouse(p);
+        List<House> findAllHouse = adminService.findAllHouse();
+        List<House> someHouse = adminService.findSomeHouse(p);
         UserHouseData data = new UserHouseData();
         data.setCode(0);
         data.setCount(findAllHouse.size());
-        data.setData(findAllHouse);
+        data.setData(someHouse);
         data.setMsg("OK");
         return data;
     }

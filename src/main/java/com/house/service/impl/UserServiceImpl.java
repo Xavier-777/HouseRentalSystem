@@ -35,4 +35,14 @@ public class UserServiceImpl implements IUserService {
     public User checkOldPwd(User user) {
         return mapper.checkOldPwd(user);
     }
+
+    @Override
+    public int updateBalance(User user) {
+        return mapper.updateBalance(user);
+    }
+
+    @Override
+    public User findUserByPublisher(String publisher) {
+        return mapper.findUserByPublisher(publisher);
+    }
 }

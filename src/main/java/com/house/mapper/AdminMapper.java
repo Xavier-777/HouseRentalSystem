@@ -29,10 +29,9 @@ public interface AdminMapper {
     /**
      * 查询所有房源信息
      *
-     * @param page 分页
      * @return List
      */
-    List<House> findAllHouse(Page page);
+    List<House> findAllHouse();
 
     /**
      * 管理员删除房源信息
@@ -81,4 +80,19 @@ public interface AdminMapper {
      * @return int
      */
     int updateAdminPwd(Admin admin);
+
+    /**
+     * 查询部分用户
+     *
+     * @param page 分页
+     * @return
+     */
+    List<User> findSomeUser(Page page);
+
+    /**
+     * 查询部分房屋
+     * @param p 分页
+     * @return
+     */
+    List<House> findSomeHouse(Page p);
 }

@@ -40,4 +40,19 @@ public class OrderServiceImpl implements IOrderService{
 		return mapper.deleteOrder(orderId);
 	}
 
+	@Override
+	public int checkOrder(Order order) {
+		return mapper.checkOrder(order);
+	}
+
+	@Override
+	public Order findOrderInfo(int orderId) {
+		return mapper.findOrderInfo(orderId);
+	}
+
+	@Override
+	public UserOrder getOrderDetail(int orderId) {
+		return mapper.getOrderDetail(orderId);
+	}
+
 }

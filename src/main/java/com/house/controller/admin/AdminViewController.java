@@ -4,12 +4,15 @@ import com.house.pojo.entity.House;
 import com.house.pojo.entity.User;
 import com.house.service.IAdminService;
 import com.house.service.IHouseService;
+import com.house.utils.FileUtils;
+import com.house.utils.OSSUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 管理员界面视图跳转
@@ -112,5 +115,27 @@ public class AdminViewController {
         House house = houseService.findHouseDetailsById(houseId);
         request.getSession().setAttribute("House", house);
         return "/admin/updateHouse.jsp";
+    }
+
+    /**
+     * 跳转到管理员审核
+     *
+     * @param houseId
+     * @param request
+     * @return
+     */
+    @RequestMapping("/checkHouse.html")
+    public String toCheckPage(int houseId, HttpServletRequest request) {
+        House house = houseService.findHouseDetailsById(houseId);
+        request.getSession().setAttribute("House", house);
+        //解析简介图
+        request.getSession().setAttribute("briefImage", OSSUtils.getImage(house.getHouseImage()));
+        //解析详情图片
+        List<String> DetailsImgList = FileUtils.parseHouseDetailsImg(house.getHouseDetailsImg());
+        request.getSession().setAttribute("DetailsImg", DetailsImgList);
+        //解析隐私图片
+        List<String> privacyImgList = FileUtils.parseHouseDetailsImg(house.getHousePrivacyImg());
+        request.getSession().setAttribute("privacyImg", privacyImgList);
+        return "/admin/checkHouse.jsp";
     }
 }

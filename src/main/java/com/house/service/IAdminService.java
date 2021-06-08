@@ -28,12 +28,27 @@ public interface IAdminService {
     List<User> findAllUser();
 
     /**
-     * 查询所有房源信息
+     * 查询部分用户
      *
      * @param page 分页
+     * @return
+     */
+    List<User> findSomeUser(Page page);
+
+    /**
+     * 查询所有房源信息
+     *
      * @return house list
      */
-    List<House> findAllHouse(Page page);
+    List<House> findAllHouse();
+
+    /**
+     * 查询部分房源信息
+     *
+     * @param p 分页
+     * @return
+     */
+    List<House> findSomeHouse(Page p);
 
     /**
      * 管理员删除房源信息
@@ -83,4 +98,5 @@ public interface IAdminService {
      * @return int
      */
     int changePassword(Admin admin);
+
 }

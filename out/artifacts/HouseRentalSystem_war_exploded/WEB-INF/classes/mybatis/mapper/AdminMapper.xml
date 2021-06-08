@@ -13,6 +13,7 @@
         <result column="u_password" jdbcType="VARCHAR" property="userPassword"/>
         <result column="u_phone_number" jdbcType="VARCHAR" property="userPhoneNumber"/>
         <result column="u_nickname" jdbcType="VARCHAR" property="userNickName"/>
+        <result column="u_ balance" jdbcType="DECIMAL" property="userBalance"/>
     </resultMap>
 
     <resultMap type="com.house.pojo.entity.House" id="HouseMap">
@@ -22,15 +23,17 @@
         <result column="house_area" jdbcType="VARCHAR" property="houseArea"/>
         <result column="house_floor" jdbcType="VARCHAR" property="houseFloor"/>
         <result column="house_type" jdbcType="VARCHAR" property="houseType"/>
-        <result column="house_price" jdbcType="VARCHAR" property="housePrice"/>
+        <result column="house_price" jdbcType="DECIMAL" property="housePrice"/>
         <result column="house_address" jdbcType="VARCHAR" property="houseAddress"/>
         <result column="house_image" jdbcType="VARCHAR" property="houseImage"/>
         <result column="community_name" jdbcType="VARCHAR" property="communityName"/>
         <result column="house_linkman" jdbcType="VARCHAR" property="houseLinkMan"/>
         <result column="house_oriented" jdbcType="VARCHAR" property="houseOriented"/>
         <result column="house_details_img" jdbcType="VARCHAR" property="houseDetailsImg"/>
+        <result column="house_privacy_img" jdbcType="VARCHAR" property="housePrivacyImg"/>
         <result column="publisher" jdbcType="VARCHAR" property="publisher"/>
         <result column="publish_time" jdbcType="VARCHAR" property="publishTime"/>
+        <result column="house_status" jdbcType="VARCHAR" property="houseStatus"/>
     </resultMap>
 
     <!-- 管理员登录 -->
@@ -46,7 +49,18 @@
         from t_users
     </select>
 
+    <select id="findSomeUser" resultMap="UserMap" parameterType="com.house.pojo.entity.Page">
+        select *
+        from t_users
+        limit #{page},#{limit}
+    </select>
+
     <select id="findAllHouse" resultMap="HouseMap" parameterType="com.house.pojo.entity.Page">
+        select *
+        from t_house
+    </select>
+
+    <select id="findSomeHouse" resultMap="HouseMap" parameterType="com.house.pojo.entity.Page">
         select *
         from t_house
         limit #{page},#{limit}

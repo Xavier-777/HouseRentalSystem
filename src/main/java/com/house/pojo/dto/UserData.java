@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * 用户数据传输对象
+ * 用户数据传输对象,layui规定的接口规格
  * @author chriy
  */
 @NoArgsConstructor

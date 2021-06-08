@@ -3,6 +3,7 @@ package com.house.service;
 import java.util.List;
 
 import com.house.pojo.entity.House;
+import com.house.pojo.entity.HouseFilter;
 import com.house.pojo.entity.Page;
 
 /**
@@ -77,4 +78,42 @@ public interface IHouseService {
      * @return house list
      */
     List<House> findHouseOrderByAsc();
+
+    /**
+     * 查找用户发布的房源数目
+     *
+     * @param p
+     * @return
+     */
+    int findHouseCountByUser(Page p);
+
+    /**
+     * 审核房屋
+     *
+     * @param house
+     * @return
+     */
+    int checkHouse(House house);
+
+    /**
+     * 筛选房屋
+     *
+     * @param houseFilter
+     * @return
+     */
+    List<House> findTargetHouses(HouseFilter houseFilter);
+
+    /**
+     * 删除房屋图片
+     *
+     * @return
+     */
+    int deleteHouseImg(House house);
+
+    /**
+     * 更新房屋图片
+     * @param house
+     * @return
+     */
+    int updateHouseImg(House house);
 }

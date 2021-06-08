@@ -24,8 +24,8 @@
     <bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--绑定数据库连接池-->
         <property name="dataSource" ref="dataSource"/>
-        <!--绑定mybatis配置文件-->
-<!--        <property name="configLocation" value="classpath:mybatis-config.xml"/>-->
+        <!--绑定mybatis配置文件，该配置文件目前只有开启了日志功能，因为我不需要日志，所有注释了-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!--绑定Mapper接口-->
         <property name="mapperLocations" value="classpath:mybatis/mapper/*.xml"/>
     </bean>

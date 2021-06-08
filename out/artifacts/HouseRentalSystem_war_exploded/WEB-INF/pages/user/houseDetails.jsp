@@ -52,7 +52,7 @@
     <div class="carousel-image layui-pull-left layui-col-md7">
         <div class="layui-carousel" id="details-image">
             <div carousel-item style="float: left;">
-                <c:forEach items="${DetailsImg }" var="d">
+                <c:forEach items="${DetailsImg}" var="d">
                     <div style="background: url('${d}')no-repeat center/cover"></div>
                 </c:forEach>
             </div>

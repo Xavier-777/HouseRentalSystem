@@ -37,4 +37,20 @@ public interface UserMapper {
      * @return user
      */
     User checkOldPwd(User user);
+
+    /**
+     * 更新金额
+     *
+     * @param user
+     * @return
+     */
+    int updateBalance(User user);
+
+    /**
+     * 用过昵称找用户
+     *
+     * @param publisher
+     * @return
+     */
+    User findUserByPublisher(String publisher);
 }

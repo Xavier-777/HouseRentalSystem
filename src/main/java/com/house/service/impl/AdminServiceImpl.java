@@ -32,8 +32,18 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
-    public List<House> findAllHouse(Page page) {
-        return service.findAllHouse(page);
+    public List<User> findSomeUser(Page page) {
+        return service.findSomeUser(page);
+    }
+
+    @Override
+    public List<House> findAllHouse() {
+        return service.findAllHouse();
+    }
+
+    @Override
+    public List<House> findSomeHouse(Page p) {
+        return service.findSomeHouse(p);
     }
 
     @Override

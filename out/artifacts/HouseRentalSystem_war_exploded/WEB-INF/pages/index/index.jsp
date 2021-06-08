@@ -11,8 +11,9 @@
     <script src="${pageContext.request.contextPath }/layui/layui.js"></script>
 </head>
 <body>
-<!--轮播图-->
+
 <div class="layui-carousel" id="bg-item">
+    <%--顶部logo与登录按钮--%>
     <div class="layui-header title">
         <div class="layui-container">
             <div class="layui-logo layui-pull-left">
@@ -29,8 +30,10 @@
             </c:if>
         </div>
     </div>
-    <!--搜索框-->
+
+
     <div class="layui-container">
+        <!--搜索框-->
         <div class="search-input">
             <form class="search-form layui-form" method="post" action="${pageContext.request.contextPath }/fuzzy">
                 <div class="layui-pull-left input">
@@ -44,7 +47,77 @@
                 </div>
             </form>
         </div>
+
+        <%--筛选框--%>
+        <div class="search-bd search-bd-font">
+            <form id="formDemo" class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">租金：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="housePriceLimit" value="null" title="不限" checked >
+                        <input type="radio" name="housePriceLimit" value="0-500" title="500以下" <c:if test="${HouseFilter.housePriceLimit == '0-500'}"> checked </c:if>>
+                        <input type="radio" name="housePriceLimit" value="500-1000" title="500-1000" <c:if test="${HouseFilter.housePriceLimit == '500-1000'}"> checked </c:if>>
+                        <input type="radio" name="housePriceLimit" value="1000-2000" title="1000-2000" <c:if test="${HouseFilter.housePriceLimit == '1000-2000'}"> checked </c:if>>
+                        <input type="radio" name="housePriceLimit" value="2000-3000" title="2000-3000" <c:if test="${HouseFilter.housePriceLimit == '2000-3000'}"> checked </c:if>>
+                        <input type="radio" name="housePriceLimit" value="3000-4000" title="3000-4000" <c:if test="${HouseFilter.housePriceLimit == '3000-4000'}"> checked </c:if>>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">厅室：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="houseModel" value="null" title="不限" checked>
+                        <input type="radio" name="houseModel" value="1室" title="一室" <c:if test="${HouseFilter.houseModel == '1室'}"> checked </c:if>>
+                        <input type="radio" name="houseModel" value="2室" title="二室" <c:if test="${HouseFilter.houseModel == '2室'}"> checked </c:if>>
+                        <input type="radio" name="houseModel" value="3室" title="三室" <c:if test="${HouseFilter.houseModel == '3室'}"> checked </c:if>>
+                        <input type="radio" name="houseModel" value="4室" title="四室" <c:if test="${HouseFilter.houseModel == '4室'}"> checked </c:if>>
+                        <input type="radio" name="houseModel" value="5室" title="四室以上" <c:if test="${HouseFilter.houseModel == '5室'}"> checked </c:if>>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">租赁方式：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="houseType" value="null" title="不限" checked>
+                        <input type="radio" name="houseType" value="整租" title="整租" <c:if test="${HouseFilter.houseType == '整租'}"> checked </c:if>>
+                        <input type="radio" name="houseType" value="合租" title="合租" <c:if test="${HouseFilter.houseType == '合租'}"> checked </c:if>>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">朝向：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="houseOriented" value="null" title="不限" checked>
+                        <input type="radio" name="houseOriented" value="东西" title="东西" <c:if test="${HouseFilter.houseOriented == '东西'}"> checked </c:if>>
+                        <input type="radio" name="houseOriented" value="南北" title="南北" <c:if test="${HouseFilter.houseOriented == '南北'}"> checked </c:if>>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">价格排序：</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="housePriceSort" value="null" title="默认" checked>
+                        <input type="radio" name="housePriceSort" value="ASC" title="由低到高" <c:if test="${HouseFilter.housePriceSort == 'ASC'}"> checked </c:if>>
+                        <input type="radio" name="housePriceSort" value="DESC" title="由高到低" <c:if test="${HouseFilter.housePriceSort == 'DESC'}"> checked </c:if>>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo"
+                                style="border-radius: 50px 50px 50px 50px;">确定
+                        </button>
+                        <a type="reset" class="layui-btn layui-btn-primary"
+                                style="border-radius: 50px 50px 50px 50px;"
+                           href="${pageContext.request.contextPath}/resetFilter">重置
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <%--轮播图--%>
     <div carousel-item>
         <div style="background: url('/img/banner-1.jpg')no-repeat center/cover"></div>
         <div style="background: url('/img/banner-2.jpg')no-repeat center/cover"></div>
@@ -53,6 +126,8 @@
     </div>
 </div>
 
+
+<%--登录 & 注册的隐藏框--%>
 <div class="layui-container">
     <div class="layui-tab layui-tab-brief" id="sign" lay-filter="" style="display: none;">
         <ul class="layui-tab-title">
@@ -131,20 +206,22 @@
         </div>
     </div>
 </div>
-<!--内容开始-->
+
+<!--房屋表头-->
 <div class="list_control_bar layui-container">
     <div>
         <div class="list_title layui-pull-left"><span>全部房源</span></div>
-        <div class="list_more">
-            <ul class="layui-pull-right list-item">
-                <li class="click-this"><a href="${pageContext.request.contextPath }/index.html">默认排序</a></li>
-                <li><a href="${pageContext.request.contextPath }/priceAsc">价格升序</a></li>
-                <li><a href="${pageContext.request.contextPath }/priceDesc">价格降序</a></li>
-            </ul>
-        </div>
+        <%--        <div class="list_more">--%>
+        <%--            <ul class="layui-pull-right list-item">--%>
+        <%--                <li class="click-this"><a href="${pageContext.request.contextPath}/index.html">默认排序</a></li>--%>
+        <%--                <li><a href="${pageContext.request.contextPath}/priceAsc">价格升序</a></li>--%>
+        <%--                <li><a href="${pageContext.request.contextPath}/priceDesc">价格降序</a></li>--%>
+        <%--            </ul>--%>
+        <%--        </div>--%>
     </div>
 </div>
 
+<%--房屋展示--%>
 <section class="layui-container">
     <hr>
     <h2>共找到<span style="color: #ffc601;margin: 0 5px;">${House.size()}</span>套出租房源</h2>
@@ -167,7 +244,7 @@
                             <span class="flag-line">|</span>
                             <span>普通装修</span>
                             <span class="flag-line">|</span>
-                            <span>${h.houseFloor }</span>
+                            <span>${h.houseFloor } 楼</span>
                             <span class="flag-line">|</span>
                             <span>${h.houseType }</span>
                         </p>
@@ -187,10 +264,13 @@
         </ul>
     </div>
 </section>
+
+<%--底部信息--%>
 <footer>
-    <a href="${pageContext.request.contextPath}/admin/index.html" >管理员登录</a>
+    <a href="${pageContext.request.contextPath}/admin/index.html">管理员登录</a>
     <p>2018-2021 &copy; 房屋租赁网 懂您的需求 服务于心</p>
 </footer>
+
 <script>
     layui.use(['element', 'carousel', 'layer', 'form'], function () {
         let element = layui.element,
@@ -215,6 +295,8 @@
                 closeBtn: 2
             });
         });
+
+        //房屋筛选的高亮，但是好像因为会刷新一下
         $('.list-item li').click(function () {
             $('.list-item li').removeClass('click-this');
             $(this).addClass('click-this');
@@ -238,6 +320,15 @@
                     window.location.href = "/index.html";
                 } else {
                     layer.msg("用户名或者密码错误");
+                }
+            });
+            return false;
+        });
+
+        form.on("submit(formDemo)", function () {
+            $.post("${pageContext.request.contextPath}/findHouseByHouseFilter", $("#formDemo").serialize(), function (res) {
+                if (res === "OK") {
+                    window.location.href = "/toIndex.html";
                 }
             });
             return false;

@@ -8,16 +8,4 @@
         <setting name="logImpl" value="LOG4J"/>
     </settings>
 
-    <!--1.配置数据源：交给Spring去做-->
-
-    <!--2.给pojo取别名：首字母自动小写-->
-    <typeAliases>
-
-    </typeAliases>
-
-
-    <!--3.绑定Mapper接口：由Spring绑定-->
-    <mappers>
-
-    </mappers>
 </configuration>

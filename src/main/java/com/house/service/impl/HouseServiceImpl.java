@@ -2,6 +2,7 @@ package com.house.service.impl;
 
 import java.util.List;
 
+import com.house.pojo.entity.HouseFilter;
 import com.house.service.IHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,31 @@ public class HouseServiceImpl implements IHouseService {
     @Override
     public List<House> findHouseOrderByAsc() {
         return dao.findHouseOrderByAsc();
+    }
+
+    @Override
+    public int findHouseCountByUser(Page p) {
+        return dao.findHouseCountByUser(p);
+    }
+
+    @Override
+    public int checkHouse(House house) {
+        return dao.checkHouse(house);
+    }
+
+    @Override
+    public List<House> findTargetHouses(HouseFilter houseFilter) {
+        return dao.findTargetHouses(houseFilter);
+    }
+
+    @Override
+    public int deleteHouseImg(House house) {
+        return dao.deleteHouseImg(house);
+    }
+
+    @Override
+    public int updateHouseImg(House house) {
+        return dao.updateHouseImg(house);
     }
 
     @Override

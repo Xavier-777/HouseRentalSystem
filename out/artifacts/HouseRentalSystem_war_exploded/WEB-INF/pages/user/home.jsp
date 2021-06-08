@@ -17,11 +17,15 @@
                 <h2>用户个人中心</h2>
             </div>
         </a>
+        <ul class="layui-nav layui-layout-right" lay-filter="#">
+            <li>余额：${loginUser.userBalance}元</li>
+        </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
             <li class="layui-nav-item" lay-unselect="" style="">
                 <a href="javascript:void(0)">
                     <cite>${loginUser.userNickName}，欢迎回来</cite>
-                    <span class="layui-nav-more"></span></a>
+                    <span class="layui-nav-more"></span>
+                </a>
                 <dl class="layui-nav-child layui-anim layui-anim-upbit">
                     <dd style="text-align: center;">
                         <a href="${pageContext.request.contextPath}/user/updatePassword.html" target="iframe">修改密码</a>
@@ -50,16 +54,19 @@
                 <a href="javascript:void(0);">房源信息管理</a>
                 <dl class="layui-nav-child">
                     <dd><a href="${pageContext.request.contextPath}/house/addHouse.html" target="iframe">发布房源信息</a></dd>
-                    <dd><a href="${pageContext.request.contextPath}/user/userRental.html" target="iframe">我发布的信息</a></dd>
+                    <dd><a href="${pageContext.request.contextPath}/user/userRental.html" target="iframe">我发布的信息</a>
+                    </dd>
                 </dl>
             </li>
         </ul>
     </div>
+
+    <%--页面嵌套--%>
     <div class="layui-body">
         <iframe src="${pageContext.request.contextPath}/user/welcome.html" width="100%" height="100%" frameborder="0"
-                name="iframe" scrolling="auto"
-                seamless></iframe>
+                name="iframe" scrolling="auto" seamless></iframe>
     </div>
+
     <div class="layui-footer" style="text-align: center;font-size: 16px">
         <p>2018-2021 &copy; 房屋租赁网 懂您的需求 服务于心</p>
     </div>

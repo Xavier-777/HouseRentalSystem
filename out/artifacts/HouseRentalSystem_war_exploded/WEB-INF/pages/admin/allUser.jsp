@@ -26,8 +26,14 @@
             elem: "#allUser",
             url: "${pageContext.request.contextPath}/admin/allUser",
             page: true,
+            limit: 5,
+            limits: [5, 10],
             cols: [[
-                {field: 'userId', title: 'UID', align: 'center'},
+                {
+                    field: 'userId', title: 'UID', align: 'center', templet: function (d) {
+                        return d.LAY_INDEX;
+                    }
+                },
                 {field: 'userName', title: '用户名', align: 'center'},
                 {field: 'userPassword', title: '密码', align: 'center'},
                 {field: 'userPhoneNumber', title: '联系电话', align: 'center'},

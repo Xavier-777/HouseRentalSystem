@@ -41,4 +41,28 @@ public interface IOrderService {
      * @return int
      */
     int deleteOrder(int orderId);
+
+    /**
+     * 更新订单状态
+     *
+     * @param order
+     * @return
+     */
+    int checkOrder(Order order);
+
+    /**
+     * 查询订单信息
+     *
+     * @param orderId
+     * @return
+     */
+    Order findOrderInfo(int orderId);
+
+    /**
+     * 订单详细
+     *
+     * @param orderId
+     * @return
+     */
+    UserOrder getOrderDetail(int orderId);
 }

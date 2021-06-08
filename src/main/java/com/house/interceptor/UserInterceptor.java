@@ -17,7 +17,7 @@ public class UserInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-        throws Exception {
+            throws Exception {
 
         response.setCharacterEncoding("utf-8");
         String requestUrl = request.getRequestURL().toString();
@@ -30,8 +30,10 @@ public class UserInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        //api白名单
         List<String> filterUserList = Arrays.asList("/index.html", "/user/login", "/user/register", "/detail.html",
-            "/fuzzy", "/priceAsc", "/priceDesc", "/admin/", "/admin/index.html", "/admin/adminAccess");
+                "/fuzzy", "/priceAsc", "/priceDesc", "/admin/", "/admin/index.html", "/admin/adminAccess", "/findHouseByHouseFilter",
+                "/toIndex.html", "/resetFilter");
         for (String url : filterUserList) {
             if (requestUrl.contains(url)) {
                 return true;

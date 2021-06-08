@@ -1,15 +1,16 @@
 package com.house.controller.house;
 
-import com.house.constant.PathConst;
+import com.house.constant.HouseStatus;
 import com.house.pojo.entity.House;
 import com.house.service.IHouseService;
+import com.house.utils.FileUtils;
+import com.house.utils.OSSUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -25,27 +26,37 @@ public class AddHouseController {
     private IHouseService houseService;
 
     /**
-     * 映射本地路径
-     * 注意：别漏了最后一个 /
-     *
+     * 简介图名字
      */
-    private String dirPath = PathConst.imgRealPath;
+    private String briefName = null;
 
     /**
-     * 简介图片地址
-     * 注意：虚拟路径映射的关键位置
+     * 简介图流
      */
-    private String simplePath = PathConst.imgMappingPath;
+    private InputStream briefIS = null;
 
     /**
-     * 详细图片地址
+     * 详细图名字
      */
     private StringBuilder detailsPath = new StringBuilder();
 
     /**
-     * 简介图名
+     * 详细图片流
+     * 图片名字 : 图片流
      */
-    private String briefImageFilename = null;
+    private Map<String, InputStream> detailsIS = new HashMap<>();
+
+    /**
+     * 个人信息名字
+     */
+    private StringBuilder privacyPath = new StringBuilder();
+
+    /**
+     * 个人信息图片流
+     * 图片名字 : 图片流
+     */
+    private Map<String, InputStream> privacyIS = new HashMap<>();
+
 
     /**
      * 添加房源界面
@@ -68,20 +79,10 @@ public class AddHouseController {
     public Map<String, Object> briefImage(@RequestParam("brief") MultipartFile briefFile) {
         Map<String, Object> map = new HashMap<>(16);
         try {
-            //本地映射路径若无，则创建
-            File filePath = new File(dirPath);
-            if (!filePath.exists()) {
-                filePath.mkdirs();
-            }
-            briefImageFilename = UUID.randomUUID().toString().replace("-", "")
-                    + Objects.requireNonNull(briefFile.getOriginalFilename())
-                    .substring(briefFile.getOriginalFilename().lastIndexOf("."));
-            //创建虚拟路径存储
-            simplePath += briefImageFilename;
-            //上传
-            briefFile.transferTo(new File(dirPath + briefImageFilename));
-            //前端显示上传图片
-            map.put("image", simplePath);
+            briefName = FileUtils.FileNameToUUID(briefFile);
+            briefIS = briefFile.getInputStream();
+            //前端显示上传图片，直接用js显示
+            map.put("image", null);
             map.put("code", 0);
             map.put("msg", "上传成功");
         } catch (Exception e) {
@@ -101,30 +102,59 @@ public class AddHouseController {
     @RequestMapping("/detailsImage")
     @ResponseBody
     public Map<String, Object> detailsImage(@RequestParam("detailsImage") List<MultipartFile> file) {
-        Map<String, Object> map = new HashMap<String, Object>(16);
-        if (!file.isEmpty()) {
-            String filename;    //文件名
-            // 本地映射路径若无，则创建
-            File filePath = new File(dirPath);
-            if (!filePath.exists()) {
-                filePath.mkdirs();
-            }
-            for (MultipartFile f : file) {
-                try {
-                    filename = UUID.randomUUID().toString().replace("-", "")
-                            + Objects.requireNonNull(f.getOriginalFilename())
-                            .substring(f.getOriginalFilename().lastIndexOf("."));
-                    detailsPath.append(filename + ":-:");
-                    //上传
-                    f.transferTo(new File(dirPath + filename));
-                } catch (Exception e) {
-                    map.put("code", 1);
-                    map.put("msg", "上传失败");
-                    e.printStackTrace();
+        Map<String, Object> map = null;
+        String filename = null;
+
+        try {
+            //记录详情图片信息
+            if (!file.isEmpty()) {
+                map = new HashMap<>(16);
+
+                for (MultipartFile f : file) {
+                    filename = FileUtils.FileNameToUUID(f);         //名字重新命名
+                    detailsPath.append(filename + ":");             //名字装入 detailsPath 中
+                    detailsIS.put(filename, f.getInputStream());
                 }
+                map.put("code", 0);
+                map.put("msg", "上传成功");
             }
-            map.put("code", 0);
-            map.put("msg", "上传成功");
+        } catch (Exception e) {
+            map.put("code", 1);
+            map.put("msg", "上传失败");
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
+     * 证件图片上传：多张
+     *
+     * @param privacyFile
+     * @return res
+     */
+    @RequestMapping("/privacyImage")
+    @ResponseBody
+    public Map<String, Object> privacyImage(@RequestParam("privacyImage") List<MultipartFile> privacyFile) {
+        Map<String, Object> map = null;
+        String filename = null;
+
+        try {
+            //记录详情图片信息
+            if (!privacyFile.isEmpty()) {
+                map = new HashMap<>(16);
+
+                for (MultipartFile f : privacyFile) {
+                    filename = FileUtils.FileNameToUUID(f);         //名字重新命名
+                    privacyPath.append(filename + ":");             //名字装入 detailsPath 中
+                    privacyIS.put(filename, f.getInputStream());
+                }
+                map.put("code", 0);
+                map.put("msg", "上传成功");
+            }
+        } catch (Exception e) {
+            map.put("code", 1);
+            map.put("msg", "上传失败");
+            e.printStackTrace();
         }
         return map;
     }
@@ -141,14 +171,48 @@ public class AddHouseController {
         if (house.getPublisher() == null || "".equals(house.getPublisher())) {
             house.setPublisher("管理员");
         }
-        house.setHouseImage(briefImageFilename);
-        house.setHouseDetailsImg(detailsPath.toString());
-        int result = houseService.addNewHouse(house);
-        if (result > 0) {
-            // 置空上一次的添加记录
-            simplePath = PathConst.imgMappingPath;
-            detailsPath.delete(0, detailsPath.length());
-            return "OK";
+
+        try {
+            //上简介文件
+            if (briefName != null) {
+                OSSUtils.fileUpload(briefIS, briefName);
+                house.setHouseImage(briefName);
+            }
+
+            //解析详细图并上传
+            if (detailsPath.length() != 0) {
+                String[] detailsName = detailsPath.toString().split(":");
+                for (String detailName : detailsName) {
+                    InputStream detailIS = detailsIS.get(detailName);
+                    OSSUtils.fileUpload(detailIS, detailName);  //上传详细文件
+                }
+                house.setHouseDetailsImg(detailsPath.toString());
+            }
+
+            //解析隐私图
+            if (privacyPath.length() != 0) {
+                String[] privacyName = privacyPath.toString().split(":");
+                for (String name : privacyName) {
+                    InputStream privacy = privacyIS.get(name);
+                    OSSUtils.fileUpload(privacy, name);       //上传个人信息图
+                }
+                house.setHousePrivacyImg(privacyPath.toString());
+            }
+
+            house.setHouseStatus(HouseStatus.unchecked.toString());
+
+            //将图片的名字写入数据库
+            int result = houseService.addNewHouse(house);
+
+            // 若写入成功，置空上一次的添加记录
+            if (result > 0) {
+                briefName = null;
+                detailsPath = new StringBuilder();
+                privacyPath = new StringBuilder();
+                return "OK";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "FAIL";
     }
