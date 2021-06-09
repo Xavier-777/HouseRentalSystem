@@ -62,6 +62,8 @@
 
 - <b>3.数据库配置：</b>将项目内的house.sql导入到数据库中，然后在database.properties中修改自己的数据库的账号密码
 
+- <b>4.程序的端口号默认为8088，若想自定义端口号，记得修改AlipayConfig.class中的notify_url与return_url中的端口号</b>
+
 
 ## 其他说明
 - <b>1.进入支付页面后，提示存在钓鱼风险，解决方案如下：</b>[https://blog.csdn.net/weixin_40652498/article/details/104201892](https://blog.csdn.net/weixin_40652498/article/details/104201892)
